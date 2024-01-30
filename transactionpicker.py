@@ -21,9 +21,7 @@ def get_transactions():
 @app.route('/get_ten_highest_fees', methods=['GET'])
 def get_ten_highest_fees():
     
-    # Input transactions_list as a dummy variable (find_ten_highest)
-    ## Sorting algorithm here
-    
+    # Input transactions_list as a dummy variable (find_ten_highest)    
     find_ten_highest = transactions_list
     
     id_transac_dict = {}
@@ -34,7 +32,7 @@ def get_ten_highest_fees():
         
     sorted_id_list = sorted(id_transac_dict.items(), key=lambda x:x[1], reverse=True)[:10]
     
-    # [(ID_NUM, TRANSAC), etc.]
+    # [(ID, TRANSAC), ]
     
     top_ten_highest = []
     for id_transac_pair in sorted_id_list:
@@ -91,8 +89,10 @@ def get_next_highest_total():
 
     # Retrieve the corresponding transactions based on IDs
     selected_transactions = [find_ten_highest[idx - 1] for idx in selected_ids]
-    
-    response = {'Selected Transactions': selected_transactions}
+    total = 0
+    for i in range(0,10):
+        total = total + float(selected_transactions[i]['Data'].split()[1])
+    response = {'Selected Transactions': total}
     return jsonify(response), 200
 
 
